@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>토마토와 나무 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .calculator {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            max-width: 300px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        label {
+            flex: 1;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100px;
+            margin-left: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+   <!-- 이미지 추가 -->
+   <img src="images/가속 배너 이미지.png" alt="가속 배너 이미지" width="300" style="display: block; margin: 0 auto;">
+
+    <div class="container">
+        <!-- 계산기 1 -->
+        <div class="calculator">
+            <h1>토마토&나무 계산기</h1>
+            <div class="input-group">
+                <label for="input1">1000개 재화 개수:</label>
+                <input type="number" id="input1" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input2">10000개 재화 개수:</label>
+                <input type="number" id="input2" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input3">50000개 재화 개수:</label>
+                <input type="number" id="input3" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input4">150000개 재화 개수:</label>
+                <input type="number" id="input4" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input5">500000개 재화 개수:</label>
+                <input type="number" id="input5" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input6">1500000개 재화 개수:</label>
+                <input type="number" id="input6" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input7">5000000개 재화 개수:</label>
+                <input type="number" id="input7" value="0" />
+            </div>
+            <button onclick="calculateTotal(1)">총 합계 계산</button>
+            <div class="result">
+                총 합계: <span id="total1">0</span> M
+            </div>
+        </div>
+
+        <!-- 계산기 2 -->
+        <div class="calculator">
+            <h1>철재 계산기</h1>
+            <div class="input-group">
+                <label for="input8">500개 재화 개수:</label>
+                <input type="number" id="input8" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input9">5000개 재화 개수:</label>
+                <input type="number" id="input9" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input10">25000개 재화 개수:</label>
+                <input type="number" id="input10" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input11">75000개 재화 개수:</label>
+                <input type="number" id="input11" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input12">250000개 재화 개수:</label>
+                <input type="number" id="input12" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input13">750000개 재화 개수:</label>
+                <input type="number" id="input13" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input14">2500000개 재화 개수:</label>
+                <input type="number" id="input14" value="0" />
+            </div>
+            <button onclick="calculateTotal(2)">총 합계 계산</button>
+            <div class="result">
+                총 합계: <span id="total2">0</span> M
+            </div>
+        </div>
+
+        <!-- 계산기 3 -->
+        <div class="calculator">
+            <h1>석유 계산기</h1>
+            <div class="input-group">
+                <label for="input15">200개 재화 개수:</label>
+                <input type="number" id="input15" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input16">2000개 재화 개수:</label>
+                <input type="number" id="input16" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input17">10000개 재화 개수:</label>
+                <input type="number" id="input17" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input18">30000개 재화 개수:</label>
+                <input type="number" id="input18" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input19">100000개 재화 개수:</label>
+                <input type="number" id="input19" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input20">300000개 재화 개수:</label>
+                <input type="number" id="input20" value="0" />
+            </div>
+            <div class="input-group">
+                <label for="input21">1000000개 재화 개수:</label>
+                <input type="number" id="input21" value="0" />
+            </div>
+            <button onclick="calculateTotal(3)">총 합계 계산</button>
+            <div class="result">
+                총 합계: <span id="total3">0</span> M
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateTotal(calculatorId) {
+            const values = {
+                1: [1000, 10000, 50000, 150000, 500000, 1500000, 5000000],
+                2: [500, 5000, 25000, 75000, 250000, 750000, 2500000],
+                3: [200, 2000, 10000, 30000, 100000, 300000, 1000000]
+            };
+            
+            const valueArray = values[calculatorId];
+            let total = 0;
+            
+            for (let i = 0; i < valueArray.length; i++) {
+                const input = document.getElementById('input' + ((calculatorId - 1) * 7 + i + 1));
+                const quantity = parseInt(input.value) || 0;
+                total += valueArray[i] * quantity;
+            }
+            
+            // 결과를 M 단위로 변환
+            const totalInM = total / 1000000;
+            document.getElementById('total' + calculatorId).textContent = totalInM.toFixed(2);
+        }
+    </script>
+</body>
+</html>
