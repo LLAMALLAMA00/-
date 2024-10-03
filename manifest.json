@@ -1,0 +1,21 @@
+{
+  "name": "토마토와 나무 계산기",
+  "short_name": "계산기",
+  "description": "토마토, 나무, 철재, 석유 계산기를 제공합니다.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007BFF",
+  "icons": [
+    {
+      "src": "/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
