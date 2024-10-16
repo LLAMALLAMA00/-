@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>라마의 병력 생산/업글 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f8ff; /* 연한 하늘색 배경 */
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+            margin: 20px;
+        }
+        .calculator {
+            margin-bottom: 20px;
+        }
+        .calculator h2 {
+            color: #87CEFA; /* 연한 하늘색 */
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #87CEFA; /* 연한 하늘색 */
+        }
+        input[type="number"] {
+            width: 100px;
+            padding: 5px;
+            margin-top: 5px;
+            text-align: center;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #87CEFA; /* 연한 하늘색 */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #add8e6; /* 좀 더 연한 하늘색 */
+        }
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #87CEFA; /* 연한 하늘색 */
+        }
+        .small-text {
+            font-size: 0.9em;
+            color: #87CEFA; /* 연한 하늘색 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>라마의 병력 생산/업글 계산기</h1>
+        <p class="small-text">(최소단위 1,000명)</p>
+
+        <!-- 가속 입력 -->
+        <div class="calculator" id="boostInput">
+            <h2>가속 시간 입력</h2>
+            <label>사용 가능한 가속 시간 (분 단위):</label>
+            <input type="number" id="boostMinutes" placeholder="분" min="0">
+        </div>
+
+        <!-- 5티어 병력 생산 시간 입력 -->
+        <div class="calculator" id="tier5Calculator">
+            <h2>5티어 병력 생산 계산기</h2>
+            <label>1,000명 생산 기준 시간:</label>
+            <input type="number" id="tier5Days" placeholder="일" min="0">
+            <input type="number" id="tier5Hours" placeholder="시간" min="0" max="23">
+            <input type="number" id="tier5Minutes" placeholder="분" min="0" max="59">
+        </div>
+
+        <!-- 기존 보유 5티어 병력 입력 -->
+        <div class="calculator" id="existingTier5">
+            <h2>기존 보유 5티어 병력 수</h2>
+            <label>기존의 5티어 병력 수:</label>
+            <input type="number" id="existingTier5Soldiers" placeholder="숫자" min="0">
+        </div>
+
+        <!-- 6티어 병력 업그레이드 시간 입력 -->
+        <div class="calculator" id="tier6Calculator">
+            <h2>6티어 병력 업그레이드 계산기</h2>
+            <label>5티어 1,000명 업그레이드 기준 시간:</label>
+            <input type="number" id="tier6Days" placeholder="일" min="0">
+            <input type="number" id="tier6Hours" placeholder="시간" min="0" max="23">
+            <input type="number" id="tier6Minutes" placeholder="분" min="0" max="59">
+        </div>
+
+        <!-- 계산 버튼 -->
+        <button onclick="calculateTroops()">계산하기</button>
+
+        <!-- 결과 출력 -->
+        <div class="result" id="finalResult"></div>
+    </div>
+
+    <script>
+        function calculateTroops() {
+            // 입력된 가속 시간을 분 단위로 계산
+            const totalBoostMinutes = parseInt(document.getElementById("boostMinutes").value) || 0;
+            
+            // 1,000명 기준의 5티어 생산 시간 분 단위로 계산
+            const tier5Days = parseInt(document.getElementById("tier5Days").value) || 0;
+            const tier5Hours = parseInt(document.getElementById("tier5Hours").value) || 0;
+            const tier5Minutes = parseInt(document.getElementById("tier5Minutes").value) || 0;
+            const totalTier5Minutes = (tier5Days * 24 * 60) + (tier5Hours * 60) + tier5Minutes;
+
+            // 기존 5티어 병력 수
+            const existingTier5Soldiers = parseInt(document.getElementById("existingTier5Soldiers").value) || 0;
+
+            // 1,000명 기준의 6티어 업그레이드 시간 분 단위로 계산
+            const tier6Days = parseInt(document.getElementById("tier6Days").value) || 0;
+            const tier6Hours = parseInt(document.getElementById("tier6Hours").value) || 0;
+            const tier6Minutes = parseInt(document.getElementById("tier6Minutes").value) || 0;
+            const totalTier6Minutes = (tier6Days * 24 * 60) + (tier6Hours * 60) + tier6Minutes;
+
+            // 기존 5티어 병력을 먼저 업그레이드
+            let timeForExistingUpgrade = (existingTier5Soldiers / 1000) * totalTier6Minutes;
+            let remainingBoostMinutes = totalBoostMinutes - timeForExistingUpgrade;
+
+            // 남은 가속 시간으로 5티어 생산과 추가 업그레이드 진행
+            const timeFor5Tier = (3 / 4) * remainingBoostMinutes;
+            const timeFor6Tier = remainingBoostMinutes - timeFor5Tier;
+
+            // 5티어 생산 가능한 병력 수 계산
+            const producible5Tier = Math.floor(timeFor5Tier / totalTier5Minutes * 1000);
+
+            // 총 5티어 병력 (생산한 병력 + 기존 보유 병력)
+            const totalAvailable5Tier = producible5Tier + existingTier5Soldiers;
+            const upgradeable6Tier = Math.floor(timeFor6Tier / totalTier6Minutes * 1000);
+
+            // 실제 업그레이드 가능한 6티어 병력 수는 업그레이드 가능한 수와 총 5티어 병력 중 작은 값
+            const finalUpgrade6Tier = Math.min(upgradeable6Tier, totalAvailable5Tier);
+
+            // 최종 6티어 병력에 기존 병력을 포함하여 표시
+            const total6TierSoldiers = finalUpgrade6Tier;
+            const existing5TierText = `기존 5티어 ${existingTier5Soldiers.toLocaleString()} 병력 수 포함`;
+
+            // 결과 출력
+            document.getElementById("finalResult").textContent = 
+                `생산할 5티어 병사 수: ${producible5Tier.toLocaleString()}명, ` +
+                `6티어로 업그레이드할 수 있는 병사 수: ${total6TierSoldiers.toLocaleString()}명 (${existing5TierText})`;
+        }
+    </script>
+</body>
+</html>
